@@ -46,7 +46,20 @@ class Player
     @glass.print_glass
 
     # possible actions: left, right, rotate, drop
-    'left=4,drop'
+    available_actions = %i(left right rotate)
+    actions_count = rand(1..2)
+    actions = available_actions.sample(actions_count)
+    random_actions = actions.inject({}) do |res, action|
+      res[action] = rand(1..3)
+      res
+    end
+
+    result = random_actions.to_a.map do |action|
+      "#{action.first}=#{action.last}"
+    end.join(',')
+
+    puts "Dancing like #{result}"
+    "#{result},drop"
   end
 
   # This method is used for processing event from tetris-server to params for client
